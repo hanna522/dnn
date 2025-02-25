@@ -15,7 +15,7 @@ df.replace('other', np.nan)
 df.replace('Unknown', np.nan)
 df.replace('N/A', np.nan)
 
-# one-hot encoding
+# one-hot encodingss
 df = pd.get_dummies(df, columns=['work_type', 'smoking_status'])
 
 X = df.drop(columns=["stroke"]) # drop label
