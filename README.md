@@ -76,9 +76,11 @@
   
 2. Training Result
 
-   Over time, the training loss decreased steadily, and accuracy increased from 0.74 to 0.96. The final evaluation on the test set showed an accuracy of **93.74%** and a loss of **0.2023**, indicating good generalization without overfitting.
+   - The model achieved a test accuracy of 78.25%, with a precision of 0.18 and recall of 0.68 for stroke cases. This indicates that the model is able to detect a majority of stroke patients while keeping false positives relatively controlled. The performance suggests a reasonable trade-off between sensitivity and precision, suitable for early-stage medical screening.
+   - Over the course of 10 epochs, the training loss consistently decreased from 1.04 to 0.50, and training accuracy improved from 23.5% to 74.1%. This indicates that the model successfully learned patterns in the data over time. Final evaluation on the test set yielded a loss of 0.4381 and an accuracy of 78.25%, suggesting effective generalization to unseen data.
 
-   <img width="1365" alt="image" src="https://github.com/user-attachments/assets/2f4595c2-0203-45ef-a11b-744e03fd1bf5" />
+   <img width="901" alt="image" src="https://github.com/user-attachments/assets/1a93c419-0752-4e56-9526-a913cc1d3980" />
+
 
 ## Lab3
 
