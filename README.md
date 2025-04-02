@@ -73,13 +73,15 @@
    - **Verbose**: 1 (Displays training progress per epoch)
    - **Optimizer**: Adam
    - **Loss Function**: binary_crossentropy
+   - **Class Weight**: Applied using class_weight='balanced' to handle class imbalance in the target variable (stroke)
   
 2. Training Result
-
+   - The model’s performance was also evaluated using a confusion matrix, which provides insight into the number of correctly and incorrectly classified instances for each class.
+   - A custom threshold of 0.7 was applied to the model’s predicted probabilities to convert them into binary class labels. 
    - The model achieved a test accuracy of 78.25%, with a precision of 0.18 and recall of 0.68 for stroke cases. This indicates that the model is able to detect a majority of stroke patients while keeping false positives relatively controlled. The performance suggests a reasonable trade-off between sensitivity and precision, suitable for early-stage medical screening.
    - Over the course of 10 epochs, the training loss consistently decreased from 1.04 to 0.50, and training accuracy improved from 23.5% to 74.1%. This indicates that the model successfully learned patterns in the data over time. Final evaluation on the test set yielded a loss of 0.4381 and an accuracy of 78.25%, suggesting effective generalization to unseen data.
 
-   <img width="901" alt="image" src="https://github.com/user-attachments/assets/1a93c419-0752-4e56-9526-a913cc1d3980" />
+   
 
 
 ## Lab3
