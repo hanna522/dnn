@@ -3,6 +3,8 @@ import numpy as np
 from tensorflow import keras
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.utils import class_weight
 
 def load_and_preprocess_data(file_path):
     # Load dataset
@@ -49,10 +51,10 @@ def build_model(input_dim):
     # Build the neural network model with the specified architecture:
     # (10 neurons/ReLU) -> (8 neurons/ReLU) -> (8 neurons/ReLU) -> (4 neurons/ReLU) -> (1 neuron/Sigmoid)
     model = keras.Sequential([
-        keras.layers.Dense(10, activation="relu", input_shape=(input_dim,)),
-        keras.layers.Dense(8, activation="relu"),
-        keras.layers.Dense(8, activation="relu"),
-        keras.layers.Dense(4, activation="relu"),
+        keras.layers.Dense(32, activation="relu", input_shape=(input_dim,)),
+        keras.layers.Dropout(0.2),
+        keras.layers.Dense(128, activation="relu"),
+        keras.layers.Dense(32, activation="relu"),
         keras.layers.Dense(1, activation="sigmoid")
     ])
     model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
@@ -63,17 +65,34 @@ def main():
     X, y = load_and_preprocess_data("stroke_dataset.csv")
     
     # Split the dataset into training and testing sets (75% train, 25% test)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
     
     # Build the model
     model = build_model(X_train.shape[1])
     
     # Train the model
-    model.fit(X_train, y_train, epochs=10, batch_size=32, verbose=1)
+    weights = class_weight.compute_class_weight(class_weight='balanced', classes=np.unique(y_train), y=y_train)
+    class_weights = dict(enumerate(weights))
+    print("class weights: ", class_weights)
+    
+    model.fit(X_train, y_train, epochs=30, batch_size=32, verbose=1, class_weight=class_weights)
     
     # Evaluate the model
     loss, accuracy = model.evaluate(X_test, y_test, verbose=1)
     print("loss:", loss, "accuracy:", accuracy)
+    
+     # Predict on test set
+    y_pred_probs = model.predict(X_test)
+    y_pred = (y_pred_probs > 0.5).astype("int32")
+
+    # Classification report
+    print("\nClassification Report:")
+    print(classification_report(y_test, y_pred))
+
+    # Confusion matrix (optional)
+    print("\nConfusion Matrix:")
+    print(confusion_matrix(y_test, y_pred))
+    
 
 if __name__ == "__main__":
     main()
