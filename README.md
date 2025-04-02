@@ -76,19 +76,50 @@
    - **Class Weight**: Applied using class_weight='balanced' to handle class imbalance in the target variable (stroke)
   
 2. Training Result
-   
+
+   **Performance Calculation**
    - The model’s performance was also evaluated using a confusion matrix, which provides insight into the number of correctly and incorrectly classified instances for each class.
-   - A custom threshold of 0.7 was applied to the model’s predicted probabilities to convert them into binary class labels. 
-   - The model achieved a test accuracy of 78.25%, with a precision of 0.18 and recall of 0.68 for stroke cases. This indicates that the model is able to detect a majority of stroke patients while keeping false positives relatively controlled. The performance suggests a reasonable trade-off between sensitivity and precision, suitable for early-stage medical screening.
-   - The model achieved an overall accuracy of 84%. It performed very well on the majority class (stroke=0) with a precision of 0.96 and F1-score of 0.91. For the minority class (stroke=1), the recall reached 0.50, successfully identifying half of the stroke cases. However, precision remained low (0.20), indicating a high number of false positives.
+   - A threshold of 0.5 was applied to the model’s predicted probabilities to convert them into binary class labels.
+
+   **Model Performance**
+   - The initial model achieved an overall accuracy of 59%, with relatively high precision (0.73) but very low recall (0.31) for stroke cases. This means that while the model was conservative in predicting stroke (only predicting stroke when it was fairly confident), it missed the majority of actual stroke patients — identifying only 16 out of 51 cases (as shown in the confusion matrix).
+   - The imbalance between false negatives (35 cases) and true positives highlights a serious limitation in sensitivity, making the model less suitable for applications where catching positive cases is critical, such as in medical diagnostics.
      
-     <img width="444" alt="image" src="https://github.com/user-attachments/assets/4dec2039-72d3-4e7c-9ed4-812edacb4b9c" />
-
-
-   
-
+     <img width="342" alt="image" src="https://github.com/user-attachments/assets/0075f7d5-3bed-477c-a3ff-3d7a63bfb9d2" />
 
 ## Lab3
 
 1. Model Tuning
-2. 
+
+   The model was initially trained using a basic neural network architecture with three hidden layers and no regularization. To improve classification performance, especially for the minority class (stroke=1), several key hyperparameters were tuned:
+
+   | Parameter      | Before                              | After                                 |
+   |----------------|--------------------------------------|----------------------------------------|
+   | Hidden Layers  | 4 layers (10, 8, 8, 4 units)         | 3 layers (32, 128, 32 units)           |
+   | Dropout        | None                                 | `Dropout(0.2)` after the first layer   |
+   | Epochs         | 10                                   | 30                                     |
+   | Batch Size     | 32                                   | 32                                     |
+   | class_weight   | Applied (`balanced`)                 | Applied (`balanced`)                   |
+
+3. Tuning Result and Comparison
+   
+   <img width="350" alt="image" src="https://github.com/user-attachments/assets/20d40c93-d244-4580-a2b8-882a750aa522" />
+   
+   | Metric              | Before Tuning | After Tuning |
+   |---------------------|----------------|---------------|
+   | Accuracy            | 0.59           | 0.74          |
+   | Precision (stroke)  | 0.73           | 0.70          |
+   | Recall (stroke)     | 0.31           | 0.86          |
+   | F1-score (stroke)   | 0.44           | 0.77          |
+   | False Positives     | 6              | 19            |
+   | False Negatives     | 35             | 7             |
+   
+   - Before tuning: The model had high precision for stroke (0.73) but very low recall (0.31), meaning it missed most stroke cases.
+     
+   - After tuning: Recall improved dramatically to 0.86, and F1-score rose from 0.44 to 0.77, indicating a much better balance between false positives and false negatives.
+     
+   - Overall accuracy improved from 59% to 74%, showing better generalization.
+
+      
+
+   
