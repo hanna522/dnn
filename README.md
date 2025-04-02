@@ -20,8 +20,16 @@
       
       *File Name: "stroke_dataset.csv"*
       
-      - Stroke Prediction Dataset
-      - Attribute
+      - **Dataset Description**
+        : The dataset contains records of patients along with their health and lifestyle attributes. It is commonly used in healthcare-related machine learning tasks, particularly for early detection and prevention strategies.
+
+         - **Total Attributes:** 12 columns (11 input features + 1 target)
+         - **Target Column:** `stroke` (1 = stroke, 0 = no stroke)
+         - **Data Types:** mixture of numerical and categorical variables
+         - **Missing Values:** Some missing values in the `bmi` and `smoking_status` columns
+      
+      - **Dataset Attribute**
+        
         | No. | Column Name         | Description                                                                 |
         |-----|---------------------|-----------------------------------------------------------------------------|
         | 1   | `id`                | Unique identifier                                                           |
@@ -36,7 +44,24 @@
         | 10  | `bmi`               | Body Mass Index (BMI)                                                       |
         | 11  | `smoking_status`    | Smoking status: `"formerly smoked"`, `"never smoked"`, `"smokes"`, or `"Unknown"` |
         | 12  | `stroke`            | Target: `1` if the patient had a stroke, `0` if not                         |
-    
+
+      - **Data Pre-processing**
+        
+         1. **Missing Value Imputation**
+            - For binary columns (`gender`, `ever_married`, `Residence_type`), missing values were filled with the **mode**.
+            - For categorical columns (`work_type`, `smoking_status`), missing values were filled with the **mode**.
+            - For numerical columns (e.g., `age`, `avg_glucose_level`, `bmi`, etc.), missing values were also filled using the **mode**. *(Note: Using mean or median could also be considered depending on distribution.)*
+
+         2. **One-Hot Encoding**
+            - Multi-class categorical features (`work_type`, `smoking_status`) were transformed into one-hot encoded vectors using `pd.get_dummies()`.
+
+         3. **Feature-Label Separation**
+            - The target variable `stroke` was separated from the feature set.
+
+         4. **Feature Scaling**
+            - All feature values were scaled to the range [0, 1] using `MinMaxScaler` from `sklearn.preprocessing`.
+
+
 ## Lab2
 
 1. Model Training Configuration
@@ -50,9 +75,12 @@
    - **Loss Function**: binary_crossentropy
   
 2. Training Result
-   
-  <img width="1365" alt="image" src="https://github.com/user-attachments/assets/2f4595c2-0203-45ef-a11b-744e03fd1bf5" />
+
+   Over time, the training loss decreased steadily, and accuracy increased from 0.74 to 0.96. The final evaluation on the test set showed an accuracy of **93.74%** and a loss of **0.2023**, indicating good generalization without overfitting.
+
+   <img width="1365" alt="image" src="https://github.com/user-attachments/assets/2f4595c2-0203-45ef-a11b-744e03fd1bf5" />
 
 ## Lab3
+
 1. Model Tuning
 2. 
