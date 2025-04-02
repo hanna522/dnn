@@ -93,13 +93,14 @@
 
    The model was initially trained using a basic neural network architecture with three hidden layers and no regularization. To improve classification performance, especially for the minority class (stroke=1), several key hyperparameters were tuned:
 
-   | Parameter      | Before                              | After                                 |
-   |----------------|--------------------------------------|----------------------------------------|
-   | Hidden Layers  | 4 layers (10, 8, 8, 4 units)         | 3 layers (32, 128, 32 units)           |
-   | Dropout        | None                                 | `Dropout(0.2)` after the first layer   |
-   | Epochs         | 10                                   | 30                                     |
-   | Batch Size     | 32                                   | 32                                     |
-   | class_weight   | Applied (`balanced`)                 | Applied (`balanced`)                   |
+   | Parameter      | Before                              | After                                 | Rationale                                                                 |
+   |----------------|--------------------------------------|----------------------------------------|---------------------------------------------------------------------------|
+   | Hidden Layers  | 4 layers (10, 8, 8, 4 units)         | 3 layers (32, 128, 32 units)           | Increased layer width to improve model capacity and learn more complex patterns. |
+   | Dropout        | None                                 | `Dropout(0.2)` after the first layer   | Added to prevent overfitting by randomly disabling neurons during training. |
+   | Epochs         | 10                                   | 30                                     | Extended training time to allow the model to learn more effectively.     |
+   | Batch Size     | 32                                   | 32                                     | Kept the same; 32 is a commonly used standard batch size.                |
+   | class_weight   | Applied (`balanced`)                 | Applied (`balanced`)                   | Used to address class imbalance and ensure the minority class (stroke) is properly learned. |
+
 
 3. Tuning Result and Comparison
    
